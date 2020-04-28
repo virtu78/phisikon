@@ -1,0 +1,138 @@
+<template>
+  <div>
+    <Header :hasHeader="header"/>
+    <Preloader :data="true"/>
+    <div class="wrapper">
+      <div class="filters">
+        <div class="filters__col">
+          <Input label="Название" />
+        </div>
+        <div class="filters__col">
+          <Input />
+        </div>
+      </div>
+      <nav class="tabsNav">
+        <router-link to="/all" >
+          <button class="tabsNav__button">Все</button>
+        </router-link>
+        <router-link to="/favorites" >
+          <button class="tabsNav__button">Избранные</button>
+        </router-link>
+        <router-link to="/mine" >
+          <button class="tabsNav__button">Мои</button>
+        </router-link>
+        <router-link to="/downloaded" >
+          <button class="tabsNav__button tabsNav__button--active">Загруженные</button>
+        </router-link>
+      </nav>
+      <div class="games">
+        <div class="games__item">
+          <GameCard />
+        </div>
+        <div class="games__item">
+          <GameCard />
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Header from "../components/Header";
+import Input from "../components/Input";
+import GameCard from "../components/GameCard";
+import Preloader from "../components/Preloader";
+
+import firebase from 'firebase';
+
+export default {
+  name: "Downloaded",
+  components: {
+    Header,
+    Input,
+    GameCard,
+    Preloader
+  },
+  props: {},
+  data: function () {
+    return {
+      header: true
+    }
+  },
+  mounted: function() {
+    const userId = firebase.auth();
+    console.log(userId);
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.filters {
+  display: flex;
+  &__col {
+    padding: 15px;
+    width: 50%;
+  }
+}
+
+.tabsNav {
+  border-bottom: 1px solid #eee;
+  margin: 0 15px;
+  &__button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: transparent;
+    min-width: 160px;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: gray;
+    transition: color 0.3s, border-color 0.3s;
+    &:hover {
+      color: #009688;
+    }
+    &--active {
+      border-bottom: 2px solid #009688;
+      color: #009688;
+    }
+  }
+}
+
+.games {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 7.5px;
+  &__item {
+    box-sizing: border-box;
+    padding: 7.5px;
+    width: 100%;
+    @media (min-width: 375px) {
+      width: 50%;
+    }
+    @media (min-width: 576px) {
+      width: 33.33%;
+    }
+    @media (min-width: 768px) {
+      width: 25%;
+    }
+    @media (min-width: 992px) {
+      width: 20%;
+    }
+    @media (mainwidth: 1024px) {
+      width: 16.66%;
+    }
+    @media (min-width: 1300px) {
+      width: 14.2857142857%;
+    }
+    @media (min-width: 1440px) {
+      width: 12.5%;
+    }
+    @media (min-width: 1600px) {
+      width: 11.11%;
+    }
+  }
+}
+</style>
