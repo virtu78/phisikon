@@ -13,8 +13,7 @@
 
 <script>
 import Input from "../components/Input";
-import Vuex from 'vuex';
-import { mapState} from 'vuex'; 
+
 import firebase from 'firebase';
 
 export default {
@@ -34,13 +33,6 @@ export default {
       link: null
     }
   },
-  computed: {
-  ...mapState({
-    
-  }),
-
-
-},
   methods: {
     getMail: function (value) {
       this.email = value;
@@ -51,55 +43,30 @@ export default {
     },
 
     sendEmail: function() {
-      //Проверка на то, прошел ли пользователь по ссылке
-      var actionCodeSettings = {
-          handleCodeInApp: true,
-          url: 'https://historical-9258a.firebaseapp.com/signIn'
-         // url: 'https://bitvaumov-4a5e6.firebaseapp.com/signIn'
-          
+      const options = {
+        handleCodeInApp: true,
+        url: 'https://historical-9258a.firebaseapp.com/signIn'
       };
-      firebase.auth().sendSignInLinkToEmail(this.email,  actionCodeSettings)
+      firebase.auth().sendSignInLinkToEmail(this.email, options)
         .then((response) => {
-          //Класс для работы с Firebase
-          class DBwork {
-            constructor(FirebaseVariable) {
-             this.db = FirebaseVariable;
-          }
-            UserExistCheck(email) {
-              return new Promise(resolve => {
-                this.db.auth().fetchSignInMethodsForEmail(email).then(r => {
-                  r.length>0?resolve(1):resolve(-1);
-                });
-              })
-            }
-          }
-          var that=this;
-          var variable = new DBwork(firebase);
-          //Eсли пользователь зарегистрирован - вернет 1, если нет:-1
-          variable.UserExistCheck(this.email).then(function (res) {
-            console.log(res)
-            if(res===1){that.step_1 = false
-            } else {
-              that.errorMail = 'Аккаунт не найден, обратитесь к разработчику'}}); 
-        }).catch(() => {
-         this.errorMail = 'Ошибка в заполнении адреса эл. почты'
-          console.log('error')})    
+          this.stepls
+                  
+           })
+           .catch(() => this.error = 'Аккаунт не найден, обратитесь к разработчику');
+          
+       
+        
     },
-      sendUrl: function (){    
+
+    sendUrl: function() {
       firebase.auth().signInWithEmailLink(this.email, this.link)
         .then((response) => {
           if( response ) this.$router.replace('games')
-          
-         
         })
         .catch(() => this.errorUrl = 'Неправильная ссылка');
     }
-
+    
   },
-  mutations: {
-
-
-},
   mounted: function() {
 
   }
@@ -118,7 +85,8 @@ export default {
     display: flex;
     flex-direction: column;
     button {
-      color: #009688;
+     // color: #009688;
+    color: #cb3837;
       font-size: 14px;
       outline: none;
       border: none;
@@ -131,3 +99,4 @@ export default {
   }
 }
 </style>
+

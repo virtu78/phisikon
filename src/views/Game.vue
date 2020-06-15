@@ -37,9 +37,11 @@
         <img v-if="current<0" :src='this.getlogoFilterToGame.settings.logo' class="game-card__image" />                    
         
         
-        <img  id="image"  v-if="current>0 && this.getlogoFilterToGametAnswer.length>0" :src='img' class="game-card__media" />
-        <img  id="image"  v-if="current===0 && this.getlogoFilterToGametAnswer.length>0" :src='img' class="game-card__media" />
-      <div  v-if="current>=0 && this.getlogoFilterToGametAnswer.length>0 " class="btn-group">
+        <video id="image" @click="reloadManual" v-if="current===0 " controls :src="img" class="game-card__video">       
+      </video>"
+      <video id="image" @click="reloadManual" v-if="current>0" controls :src="img" class="game-card__video">          
+      </video>"
+      <div  v-if="current>=0  " class="btn-group">
         <button   id="first"
           @click="getAnswer()"
           class="btn-group__answers">
@@ -61,10 +63,7 @@
           {{ this.getlogoFilterToGametAnswer[3].text }}
         </button>
       </div> 
-      <video id="image" @click="reloadManual" v-if="current===0 && this.getlogoFilterToGametAnswer.length===0" controls :src="img" class="game-card__video">       
-      </video>"
-      <video id="image" @click="reloadManual" v-if="current>0 && this.getlogoFilterToGametAnswer.length===0" controls :src="img" class="game-card__video">          
-      </video>"
+     
       
       </div> 
     <div id="marquee" @click="unvisible" v-if="current>=0 && this.getlogoFilterToGametAnswer.length===0" class="b-marquee">
@@ -568,7 +567,7 @@ width:70%;
     font-size: 40px;
   }
   .semibold {
-    font-weight: 500;
+    font-weight: 450;
   }
 
 

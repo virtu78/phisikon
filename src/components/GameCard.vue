@@ -1,5 +1,5 @@
 <template>
-  <div class="game-card">
+  <div id="gm" class="game-card"  @click="gameClicked" >
     <div class="game-card__preview">
      
      
@@ -12,7 +12,7 @@
     <div class="game-card__info">      
       
       <router-link tag="div" class="game-card__title" :to="{ name : 'Game', params: {name: game.name}}" >
-        <span @click="PlaedIncrement">{{game.name}}</span>
+        <span @click="PlayedIncrement">{{game.name}}</span>
       </router-link>
       <div class="game-card__text" v-html="game.description">}</div>
       <div class="game-card__stat">
@@ -51,12 +51,26 @@ export default {
   },
   data: function () {
     return {
-       hasBeenLiked:false, 
-      
+      hasBeenLiked:false, 
+      currentgame:null,
     }
   },
  methods: {
-  
+   gameClicked() {  
+      let items = document.querySelectorAll('#gm');
+      //console.log(items)
+        items.forEach(item => {
+        this.selected=item;
+        console.log(this.selected)
+        item.addEventListener('click', this.highlight());
+        this.$emit('update', this.game);
+        
+      });      
+    },   
+    highlight() {       
+      this.selected.classList.remove('game-card');  
+      this.selected.classList.add('game-card__active'); // подсветить новый td
+    },
      addLike: function()   {
 
  class DBwork {
@@ -133,7 +147,7 @@ console.log(this.game);
        this.hasBeenLiked = !this.hasBeenLiked;  //this.likesFilterToSettingsIsLiked = this.game.hasBeenLiked;   
       }, 
 
-PlaedIncrement ()  {
+PlayedIncrement ()  {
 
 class DBwork {
           constructor(FirebaseVariable) {
@@ -231,6 +245,10 @@ async PlayedInc(game){
       display: block;
     }
   }
+     &__active {
+
+      background-color:rgb(153, 156, 156);
+    }
   &__preview {
     position: relative;
     display: flex;
@@ -305,7 +323,8 @@ async PlayedInc(game){
   align-items: center;
   &__icon {
     font-size: 18px;
-    color: #009688;
+   // color: #009688;
+    color: #000000;
     margin-right: 10px;
     transition: color 0.3s;
   }

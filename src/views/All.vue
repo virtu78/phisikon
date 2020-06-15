@@ -1,7 +1,7 @@
 
-]\<template>
+<template>
   <div>
-    <Header :hasHeader="header"/>
+    <Header v-bind:currentgame="currentgame" v-on:update="getGame($event)" :hasHeader="header"/>
     <Preloader :data="true"/>
     <div class="wrapper">
       <div class="filters">
@@ -29,10 +29,11 @@
         <router-link to="/created" >
           <button class="tabsNav__button">Создать</button>
         </router-link>
-         <button @click="SuperCheck" class="tabsNav__button">Check</button>
+        
       </nav>      
-        <div class="games">          
-          <GameCard  @click="handleClick(index)"  v-for="(game, index) in  logoFilterToSettings"  :game="game" :key="index" class="games__item" />       
+        <div  class="games">          
+          <GameCard v-bind:currentgame="currentgame" v-on:update="getGame($event)"  v-for="(game, index) in  logoFilterToSettings"  :game="game" :key="index"  class="games__item" />   
+          
         </div>      
     </div>
   </div>
@@ -53,21 +54,36 @@ export default {
     GameCard,
     Preloader
   },
-    props: {        
-  },  
+    props: {} ,  
   data: function () {
     return {
       header: true,   
-      selectedItem: null,
-      
+      hasBeenCliked: false,
+      selected:null,
+      currentgame:{
+        name:"game"
+      }
     }
   },
   methods: {
-    
-    handleEditClick(index) {
-      this.selectedItem = index;
-      console.log(this.selectedItem);
+    getGame(x){          
+      this.currentgame=x
+      console.log(this.currentgame); 
     },
+    gameClicked() {  
+      let items = document.querySelectorAll('#gm');
+      //console.log(items)
+      items.forEach(item => {
+        this.selected=item;
+        console.log(this.selected)
+        item.addEventListener('click', this.highlight());         
+      });      
+    },   
+    highlight() {       
+      this.selected.classList.remove('games__item');  
+      this.selected.classList.add('games__active'); // подсветить новый td
+    },
+    
     Check() {
       class DBwork {
           constructor(FirebaseVariable) {
@@ -274,7 +290,7 @@ variable.GetGamesInfo("games", x=>x).then(r=>{
       return  state.logoFilterToVisible.map(ToSettings => ToSettings.settings);     
     },
 
-   
+
   },
   created: function() {    
     this.$store.dispatch('initLogo')
@@ -310,11 +326,14 @@ variable.GetGamesInfo("games", x=>x).then(r=>{
     color: gray;
     transition: color 0.3s, border-color 0.3s;
     &:hover {
-      color: #009688;
+     // color: #009688;
+       color: #cb3837;
     }
     &--active {
-      border-bottom: 2px solid #009688;
-      color: #009688;
+      //border-bottom: 2px solid #009688;
+     /// color: #009688;
+       border-bottom: 2px solid #cb3837;
+      color: #cb3837;
     }
   }
 }
@@ -323,7 +342,7 @@ variable.GetGamesInfo("games", x=>x).then(r=>{
   display: flex;
   flex-wrap: wrap;
   padding: 7.5px;
-  &__item {
+  &__item {     
     box-sizing: border-box;
     padding: 7.5px;
     width: 100%;
@@ -352,5 +371,35 @@ variable.GetGamesInfo("games", x=>x).then(r=>{
       width: 11.11%;
     }
   }
+   &__active {
+      box-sizing: border-box;
+      padding: 7.5px;
+      width: 100%;
+      @media (min-width: 375px) {
+        width: 50%;
+      }
+      @media (min-width: 576px) {
+        width: 33.33%;
+      }
+      @media (min-width: 768px) {
+        width: 25%;
+      }
+      @media (min-width: 992px) {
+        width: 20%;
+      }
+      @media (mainwidth: 1024px) {
+        width: 16.66%;
+      }
+      @media (min-width: 1300px) {
+        width: 14.2857142857%;
+      }
+      @media (min-width: 1440px) {
+        width: 12.5%;
+    }
+    @media (min-width: 1600px) {
+      width: 11.11%;
+    }
+      background-color:rgb(153, 156, 156);
+    }
 }
 </style>

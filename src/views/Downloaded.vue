@@ -24,6 +24,9 @@
         <router-link to="/downloaded" >
           <button class="tabsNav__button tabsNav__button--active">Загруженные</button>
         </router-link>
+         <router-link to="/created" >
+          <button class="tabsNav__button">Создать</button>
+        </router-link>
       </nav>
       <div class="games">
         <div class="games__item">
@@ -91,15 +94,17 @@ export default {
     color: gray;
     transition: color 0.3s, border-color 0.3s;
     &:hover {
-      color: #009688;
+     // color: #009688;
+       color: #cb3837;
     }
     &--active {
-      border-bottom: 2px solid #009688;
-      color: #009688;
+      //border-bottom: 2px solid #009688;
+     /// color: #009688;
+       border-bottom: 2px solid #cb3837;
+      color: #cb3837;
     }
   }
 }
-
 .games {
   box-sizing: border-box;
   display: flex;

@@ -3,8 +3,10 @@
     <div class="wrapper">
       <h1 class="header__title" v-if="hasHeader">Игры</h1>
 
-      <button class="play-button" v-if="hasHeader">
-        <font-awesome-icon icon="play" />Играть
+      <button v-show="isButtonEnabled" class="play-button" v-if="hasHeader"  >
+        <router-link  style="color:#fff" :to="{ name : 'Game', params: {name: currentgame.name}}" >
+          <font-awesome-icon   icon="play" />Играть
+        </router-link>
       </button>
 
       <router-link to="/All" v-else>
@@ -32,10 +34,22 @@ import firebase from 'firebase';
 
 export default {
   name: "Header",
-  props: ["hasHeader"],
+  props: {
+    hasHeader: Boolean,  
+    currentgame: Object,
+    },
   
   data: function () {
     return {
+      isButtonEnabled: false,
+      canPass: false,
+    }
+  },
+  watch: {
+    currentgame: function() {
+      this.canPass = this.currentgame.name.length > 4;
+     // console.log(this.currentgame.name.length)
+      this.isButtonEnabled = this.canPass;
     }
   },
   methods: {
@@ -48,7 +62,8 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  background: #009688;
+ // background: #009688;
+ background: #000000;
   box-sizing: border-box;
   .wrapper {
     display: flex;

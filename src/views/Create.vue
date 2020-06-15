@@ -14,7 +14,7 @@
           <button class="tabsNav__button">Все</button>
         </router-link>
         <router-link to="/favorites" >
-          <button class="tabsNav__button tabsNav__button--active">Избранные</button>
+          <button class="tabsNav__button">Избранные</button>
         </router-link>
         <router-link to="/mine" >
           <button class="tabsNav__button">Мои</button>
@@ -22,35 +22,26 @@
         <router-link to="/downloaded" >
           <button class="tabsNav__button">Загруженные</button>
         </router-link>
-      </nav>
-      <div class="wrapper">
-      <div class="create">
-        <div class="settings__item">
-          <Input label="Game name is here" />
+        <router-link to="/created" >
+          <button class="tabsNav__button tabsNav__button--active">Создать</button>
+        </router-link>
+      </nav>     
+      <div class="create-container">
+        <div class="item-block" v-show="show_1">
+          <Input label="Введите название игры" @input-changed="getDescription" />
+          <button @click="boom">Продолжить</button>
+        </div>  
+        <div class="item-block"  v-show="show_2">
+          <Input label="Введите описание игры" @input-changed="getName" />
+          <button @click="tram">Продолжить</button>
         </div>
-
-        <div  class="settings__item">
-          <label>File
+        
+        <div class="item-block" v-show="show_3">  
+          <label>Аватар игры
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
           </label>
-          <button v-on:click="uploadQuestuion()">Submit</button>        
-        </div>
-        <div class="settings__item">
-          <Input label="Question is here" />
-        </div>
-        <div class="settings__item">
-          <Input label="first answer is here" />
-        </div>
-        <div class="settings__item">
-          <Input label="second answer is here" />
-        </div>
-         <div class="settings__item">
-          <Input label="third answer is here" />
-        </div>
-         <div class="settings__item">
-          <Input label="fourth answer is here" />
-        </div>
-      </div>
+          <button v-on:click="upload()">Создать игру</button>        
+        </div>    
     </div>
     </div>
   </div>
@@ -74,26 +65,71 @@ export default {
     data: function () {
         return {
             header: true,
+            show_1: true,
+            show_2:false,
+            show_3: false,
             file: '',
+            // add  document to the games collection
+            blocked:true,
+            clientUid:'',
+            description:'',
+            likes:[],
+            logo:null,
+            logos:[],
+            music:'',
+            name:'',
+            played:0,
+            soundless:false,
+            visible:false,
+            //end of document
+            // add  document to the questions collection
+            answers:[],
+            penalty:0,
+            points:0,
+            position:0,
+            postMedia:null,
+            postType:0,
+            preMedia:null,
+            preType:0,
+            text:'',
+             //end of document
         }
     },
     methods:{
-        handleFileUpload(){
-          this.file = this.$refs.file.files[0];
-        },
-        uploadQuestuion(){
+      getName: function (value){
+        this.name = value;
+      },
+      getDescription: function (value){
+        this.description = value;
+      },
+      boom(){
+        console.log('Чпоок1!')
+         this.show_1 = false;
+         this.show_2 = true;
+      },
+      tram(){
+        console.log('Чпоок2!')
+         this.show_1 = false;
+         this.show_2 = false;
+         this.show_3 = true;
+      },
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      },
+        //https://cloud.google.com/firestore/docs/quickstart-mobile-web
+        upload(){
         //https://firebase.google.com/docs/storage/web/upload-files?hl=ru
             var storage = firebase.storage();
             var storageRef = storage.ref();
             //var file = '...'
-                        var metadata = {
-                contentType: 'image/png'
-            };
+                       var metadata = {
+    'contentType': this.file.type
+  };
 
             // Upload file and metadata to the object 'images/mountains.jpg'
-            var uploadTask = storageRef.child('logo/' + this.file.name).put(this.file, metadata);
+            var uploadTask = storageRef.child('games/' + this.file.name).put(this.file, metadata);
 
-           
+            var that=this;
             // File or Blob named mountains.jpg
             
 
@@ -136,6 +172,7 @@ export default {
                     console.log('File available at', downloadURL);
                 });
             });
+           
         }
              
     },
@@ -178,15 +215,17 @@ export default {
     color: gray;
     transition: color 0.3s, border-color 0.3s;
     &:hover {
-      color: #009688;
+     // color: #009688;
+       color: #cb3837;
     }
     &--active {
-      border-bottom: 2px solid #009688;
-      color: #009688;
+      //border-bottom: 2px solid #009688;
+     /// color: #009688;
+       border-bottom: 2px solid #cb3837;
+      color: #cb3837;
     }
   }
 }
-
 .games {
   box-sizing: border-box;
   display: flex;
@@ -231,5 +270,29 @@ export default {
             width: 50%;
             padding: 15px;
         }
+}
+.create-container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .item-block {
+    display: flex;
+    flex-direction: column;
+    button {
+      //color: #009688;
+      color:#cb3837;
+      font-size: 14px;
+      outline: none;
+      border: none;
+      background: none;
+      text-transform: uppercase;
+      font-weight: 500;
+      line-height: 34px;
+      cursor: pointer;
+    }
+  }
 }
 </style>

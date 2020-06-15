@@ -307,11 +307,14 @@ variable.GetGamesInfo("games", x=>x).then(r=>{
     color: gray;
     transition: color 0.3s, border-color 0.3s;
     &:hover {
-      color: #009688;
+     // color: #009688;
+       color: #cb3837;
     }
     &--active {
-      border-bottom: 2px solid #009688;
-      color: #009688;
+      //border-bottom: 2px solid #009688;
+     /// color: #009688;
+       border-bottom: 2px solid #cb3837;
+      color: #cb3837;
     }
   }
 }
