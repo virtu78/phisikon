@@ -1,61 +1,43 @@
 <template>
   <div class="header">
     <div class="wrapper">
-      <h1 class="header__title" v-if="hasHeader">Игры</h1>
-
-      <button v-show="isButtonEnabled" class="play-button" v-if="hasHeader"  >
-        <router-link  style="color:#fff" :to="{ name : 'Game', params: {name: currentgame.name}}" >
-          <font-awesome-icon   icon="play" />Играть
-        </router-link>
-      </button>
-
-      <router-link to="/All" v-else>
-        <button class="header__button">
-          <font-awesome-icon icon="arrow-left" />
-        </button>
-      </router-link>
-
+      <h1 class="header__title" v-if="hasHeader">Витрина</h1>
+      <div class="header__options">        
+      </div>
       <div class="header__options">
-        <router-link to="/settings" v-if="hasHeader">
-          <button class="header__button">
-            <font-awesome-icon icon="cog" />
-          </button>
-        </router-link>
-        <button class="header__button" @click="signOut">
-          <font-awesome-icon icon="sign-out-alt" />
-        </button>
+        <span class="header__toogle" >Переключить рубли/бонусы</span>
+        <button @click=" updateValue"   class="favorite-counter__icon"
+          :class="{'favorite-counter__icon--active': this.hasBeenToogle}">
+            <font-awesome-icon icon="toggle-off" />
+        </button>   
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase';
 
 export default {
   name: "Header",
   props: {
     hasHeader: Boolean,  
-    currentgame: Object,
+   
     },
   
   data: function () {
     return {
-      isButtonEnabled: false,
-      canPass: false,
+       hasBeenToogle: false,
     }
   },
-  watch: {
-    currentgame: function() {
-      this.canPass = this.currentgame.name.length > 4;
-     // console.log(this.currentgame.name.length)
-      this.isButtonEnabled = this.canPass;
-    }
+  computed:{
+    
   },
-  methods: {
-    signOut: function() {
-      firebase.auth().signOut().then(() => this.$router.replace('/'))
-    }
+ methods: {
+   updateValue() {
+          this.hasBeenToogle = !this.hasBeenToogle; 
+          this.$emit('rubbonus-changed', this.hasBeenToogle )
+          }, 
+  
   }
 };
 </script>
@@ -80,6 +62,33 @@ export default {
     font-weight: 500;
     font-size: 24px;
     color: #fff;
+  }
+  .favorite-counter {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+ 
+  &__icon {
+    position:absolute;
+    right:5px;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    margin-right: 10px;
+    transition: color 0.3s;
+     border-radius:15px;
+    &--active {
+      color: rgb(243, 182, 13);
+;
+    }
+  }
+  }
+  &__toogle{
+     position:absolute;
+    right:65px;
+    margin: 0;
+    //font-weight: 500;
+    font-size: 14px;
+    color: #fff
   }
   &__options {
     display: flex;
