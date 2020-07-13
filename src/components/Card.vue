@@ -49,7 +49,8 @@ export default {
        return title       
       },
     prcBnsToogle(){
-      let porb;      
+      let porb;
+            
       porb = (this.clickRubBonus==false) ? this.imumkitem.price + " рублей " : this.imumkitem.priceBonus + " бонусов ";   
     return porb
    } 

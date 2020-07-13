@@ -91,7 +91,7 @@ export default {
       selectedGrade: "Все классы",      
       search: null,
       
-      clickRubBonus:null,
+      clickRubBonus:false,
     }
   },
   methods: {
