@@ -90,13 +90,14 @@ export default {
       selectedGenre:"Все жанры",
       selectedGrade: "Все классы",      
       search: null,
-      porb:null,
+      
       clickRubBonus:null,
     }
   },
   methods: {
     toogle(x){           
       this.clickRubBonus=x
+      
       //console.log(this.clickRubBonus);   
     },
     getSearch(value) {

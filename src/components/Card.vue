@@ -28,7 +28,7 @@ export default {
   name: "Card",
   props: {
     imumkitem: Object,
-    clickRubBonus: Object
+    clickRubBonus: Boolean
   },
   data: function () {
     return {    
@@ -49,7 +49,7 @@ export default {
        return title       
       },
     prcBnsToogle(){
-      let porb, a=this.clickRubBonus;      
+      let porb;      
       porb = (this.clickRubBonus==false) ? this.imumkitem.price + " рублей " : this.imumkitem.priceBonus + " бонусов ";   
     return porb
    } 
