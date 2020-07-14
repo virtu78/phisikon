@@ -102,10 +102,11 @@ export default {
     },
     getSearch(value) {
       this.search = value.toLowerCase(); 
-      (this.search.length == 0) ? 
-      this.search=null :         
-      this.search = value.toLowerCase(); 
-      
+      (this.search.length == 0) ? this.search=null :         
+      //this.search = value.toLowerCase(); 
+      (/[0-9]/.test(this.search)) ?
+      this.search = value.replace(/[^0-9]/g, '')  :      
+      this.search = value.replace(/[^A-Za-zА-Яа-яЁё]/g, "").toLowerCase();
     },
     searschbyTitle(){
       console.log(this.search)       
@@ -187,7 +188,7 @@ export default {
           this.threeFilters :  
         (this.search !== null) ? 
           this.arrUnique.filter(itm=>itm.tagList.find(p=>p.toLowerCase()=== this.search)) :         
-        this.arrUnique;       
+          this.arrUnique  
       return immk
     }    
   },
