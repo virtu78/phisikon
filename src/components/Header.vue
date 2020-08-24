@@ -5,6 +5,7 @@
       <div class="header__options">        
       </div>
       <div class="header__options">
+        <!--<button class="savefile" @click='readRequest'>Export data to local txt file</button>-->        
         <span class="header__toogle" >Переключить рубли/бонусы</span>
         <button @click=" updateValue"   class="favorite-counter__icon"
           :class="{'favorite-counter__icon--active': this.hasBeenToogle}">
@@ -30,19 +31,36 @@ export default {
     }
   },
   computed:{
-    
+    imumks(){      
+      return this.$store.getters.getimumk
+    },
   },
- methods: {
-   updateValue() {
+ methods: {   
+    updateValue() {
           this.hasBeenToogle = !this.hasBeenToogle; 
           this.$emit('rubbonus-changed', this.hasBeenToogle )
-          }, 
-  
+          },   
+    readRequest() { 
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(this.imumks , null, 2)], {
+      type: "text/plain"
+      }));
+      a.setAttribute("download", "data.txt");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.savefile{
+  position: absolute;
+  right:400px;
+  font-size: 14px;
+  color: rgb(15, 1, 48)
+}
 .header {
  // background: #009688;
  background: #000000;

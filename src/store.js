@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import firebase from 'firebase';
 Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     imumkitems:{},
+    phisikon:{},
+    
   },
   getters: {
     //getter for imumk items  
@@ -34,17 +37,26 @@ export const store = new Vuex.Store({
   mutations: {
     SET_IMUMK_ITEMS: (state, imumkitems) => {
       state.imumkitems = imumkitems;
-    },    
+    },
+    SET_PHISIKON_DATA:   (state, phisikon) => {
+      state.phisikon = phisikon;
+    }, 
   },  
   actions: {  
     initImumkItems : function ({commit}){      
       axios.post('http://krapipl.imumk.ru:8082/api/mobilev1/update')
       .then((response) => {
-        console.log(response.data, this)     
+       // console.log(response.data, this)        
         commit('SET_IMUMK_ITEMS', response.data.items)     
       }).catch(error => {
         console.log(error);
       })
+    },
+    initPhisikonData : function ({commit}){      
+      firebase.database().ref().once('value').then(snapshot => {
+        var data = snapshot.val();            
+         commit('SET_PHISIKON_DATA', data);         
+      });
     }
   }
 })

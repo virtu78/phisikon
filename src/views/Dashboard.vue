@@ -73,7 +73,7 @@ import Card from "../components/Card";
 import Preloader from "../components/Preloader";
 import Vuex from 'vuex';
 import { mapState} from 'vuex';
-
+import firebase from 'firebase';
 export default {
   name: "Dashboard",
   components: {
@@ -115,7 +115,8 @@ export default {
   },
   computed:{
  ...mapState({  
-    imumkitems: state => state.imumkitems
+    imumkitems: state => state.imumkitems,
+     phisikon: state => state.phisikon
   }),
     
     arrUnique() {
@@ -194,6 +195,7 @@ export default {
   },
   created: function() {    
     this.$store.dispatch('initImumkItems')
+    this.$store.dispatch('initPhisikonData')
   },
   
   };
