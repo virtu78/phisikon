@@ -12,25 +12,25 @@ export const store = new Vuex.Store({
   getters: {
     //getter for imumk items  
     getimumk: state => {      
-      return  state.imumkitems
+      return  state.phisikon
     },
     getSubject: state => {      
-      return  state.imumkitems.map(item => item.subject);
+      return  state.phisikon.map(item => item.subject);
     },
     getGenre: state => {      
-      return  state.imumkitems.map(item => item.genre);
+      return  state.phisikon.map(item => item.genre);
     },
     getGrade: state => {      
-      return  state.imumkitems.map(item => item.grade);
+      return  state.phisikon.map(item => item.grade);
     },
     getTitle: state => {      
-      return  state.imumkitems.map(item => item.title);
+      return  state.phisikon.map(item => item.title);
     },
     getPrice: state => {      
-      return  state.imumkitems.map(item => item.price);
+      return  state.phisikon.map(item => item.price);
     },
     getPriceBonus: state => {      
-      return  state.imumkitems.map(item => item.priceBonus);
+      return  state.phisikon.map(item => item.priceBonus);
     },
     
     },  
